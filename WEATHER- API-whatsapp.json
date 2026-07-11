@@ -1,0 +1,188 @@
+{
+  "name": "WEATHER API",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        -288
+      ],
+      "id": "91190309-5f4f-4a6d-b2f3-ddbe242efd29",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f0218cf3-4ea7-4df4-93fd-d2e957a6c9f7",
+              "name": "city",
+              "value": "London"
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        -288
+      ],
+      "id": "aadeabb3-7030-4a08-82ae-23eabf239876",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/weather",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json[\"city\"] }}"
+            },
+            {
+              "name": "appid",
+              "value": YOUR_OPENWEATHER_API_KEY
+            },
+            {
+              "name": "units",
+              "value": "metric"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -16,
+        -288
+      ],
+      "id": "ab1da0ce-2078-4148-990e-7331746cbab5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d17c0a0-3cf2-40eb-bfdc-f35c46f2fc62",
+              "name": "city",
+              "value": "London",
+              "type": "string"
+            },
+            {
+              "id": "71c8759a-3440-4936-b9a2-c81d504c991e",
+              "name": "temp",
+              "value": "={{$json[\"main\"][\"temp\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "40bfd582-4b4c-456b-b6f8-4b1083132ad3",
+              "name": "humidity",
+              "value": "={{$json[\"main\"][\"humidity\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "d51b6990-b265-416b-af89-65d50172bc06",
+              "name": "description",
+              "value": "={{$json[\"weather\"][0][\"description\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -288
+      ],
+      "id": "10431b5b-2782-4041-849a-8e40433e0c03",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": +920000000000
+        "toWhatsapp": true,
+        "message": "=Weather in {{ $json.city }}: Temp: {{ $json.temp }}°C Condition: {{ $json.description }} Humidity: {{ $json.humidity }}%",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -288
+      ],
+      "id": "6dbc3d38-7d81-429b-b8c9-72779f2c960c",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6be40ba0-1c15-4901-8483-dea012181d75",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fa614eb2e11ab21ef260bfedd2b140c44ae8b7cf9c57865a4d3ecae0020e02e2"
+  },
+  "id": "eJQhVOFTgx8rF5bv",
+  "tags": []
+}
