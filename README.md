@@ -20,13 +20,16 @@ This n8n workflow fetches weather data and sends it to WhatsApp using Twilio.
 3. Configure Twilio.
 4. Run the workflow.
    
- ## Screenshots
+## Screenshots
 
 ### Workflow
 ![Workflow](Screenshots/Screenshot%20(39).png)
 
+### HTTP Request
+![HTTP Request](Screenshots/Screenshot%20(40).png)
+
 ### WhatsApp Output
-![WhatsApp Output](Screenshots/Screenshot%20(40).png)
+![WhatsApp Output](weather%20img.jpeg)
 
 ## Project Structure
 
